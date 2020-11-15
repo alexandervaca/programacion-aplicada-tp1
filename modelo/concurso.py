@@ -1,6 +1,9 @@
 class Concurso:
     disparos = []
 
+    def __init__(self):
+        print('Concurso __init__')
+
     def agregarDisparo(self, disparo):
         self.disparos.append(disparo)
 

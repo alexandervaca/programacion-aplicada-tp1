@@ -1,4 +1,5 @@
 import math
+import csv
 
 #Clase Participante
 class Participante:
@@ -71,38 +72,86 @@ class Concurso:
 
     def mostrarRegistros(self):
         for disparo in self.disparos:
-            print(disparo)
+            print(str(disparo))
 
     #los 3 primeros
     def mostrarPodio(self):
-        # TODO
-        for disparo in self.disparos:
-            print(disparo)
+        participantesPodio = self.disparos
+        for i in range(len(participantesPodio)-1):
+            for k in range(len(participantesPodio)-1-i):
+                if participantesPodio[ k ].mejorDisp > participantesPodio[ k+1 ].mejorDisp:
+                    participantesPodio[ k ],participantesPodio[ k+1 ] = participantesPodio[ k+1 ],participantesPodio[ k ]
+        
+        if participantesPodio.__len__() >= 3:
+            print('Nro 1: ' + str(participantesPodio[0]))
+            print('Nro 2: ' + str(participantesPodio[1]))
+            print('Nro 3: ' + str(participantesPodio[2]))
+        if participantesPodio.__len__() == 2:
+            print('Nro 1: ' + str(participantesPodio[0]))
+            print('Nro 2: ' + str(participantesPodio[1]))
+        if participantesPodio.__len__() == 1:
+            print('Nro 1: ' + str(participantesPodio[0]))
+        if participantesPodio.__len__() == 0:
+            print('Sin participantes.')
 
     def mostrarUltimo(self):
-        # TODO
-        ultimo = None
+        ultimoParticipante = None
+        ultimoPuntaje = 0.0
         for disparo in self.disparos:
-            ultimo = disparo
-        print(ultimo)
+            peorDisparo = max(disparo.disp1, disparo.disp2, disparo.disp3)
+            if ultimoPuntaje < peorDisparo:
+                ultimoPuntaje = peorDisparo
+                ultimoParticipante = disparo
+        
+        return str(ultimoParticipante)
 
     def cantidadParticipantes(self):
         return self.disparos.__len__()
 
     def mostrarParticipantesPorEdad(self):
-        # TODO ordenado por edad
-        for disparo in self.disparos:
-            print(disparo)
+        participantesPorEdad = self.disparos
+        for i in range(len(participantesPorEdad)-1):
+            for k in range(len(participantesPorEdad)-1-i):
+                if participantesPorEdad[ k ].nombre < participantesPorEdad[ k+1 ].nombre:
+                    participantesPorEdad[ k ],participantesPorEdad[ k+1 ] = participantesPorEdad[ k+1 ],participantesPorEdad[ k ]
+        
+        #imprime participantes ordenados por edad
+        for h in range(len(participantesPorEdad)-1):
+          print(str(participantesPorEdad[h]))
 
+    #retorna el promedio de todos los disparos
     def promedioDisparos(self):
-        total = 0.0
+        promedioTotal = 0.0
         for disparo in self.disparos:
-            #print(disparo)
-            total += disparo
-        return total / self.disparos.__len__()
+            promedioTotal += disparo.mejorDisp
+        return promedioTotal / self.disparos.__len__()
 
     def guardarCSV(self):
-        for disparo in self.disparos:
-            print(disparo)
+        # abre archivo csv en modo append 'w' 
+        archivo = open('torneo.csv', 'w', newline ='')
+        # escribe en el archivo
+        with archivo:
+            header = ['Nro Part','Nombre','Apellido','Edad','Sexo','Disp1','Disp2','Disp3','MejorDisp','PromDisp']
+            writer = csv.DictWriter(archivo, fieldnames = header)
+            writer.writeheader()
 
+            for disparo in self.disparos:
+                disparoCSV = {
+                  'Nro Part': disparo.numero, 
+                  'Nombre': disparo.nombre, 
+                  'Apellido': disparo.apellido, 
+                  'Edad': disparo.edad, 
+                  'Sexo': disparo.sexo,
+                  'Disp1': disparo.disp1,
+                  'Disp2': disparo.disp2,
+                  'Disp3': disparo.disp3,
+                  'MejorDisp': disparo.mejorDisp,
+                  'PromDisp': disparo.promedioDisp
+                }
+                writer.writerow(disparoCSV)
+            
+            archivo.close()
+
+        print('Los datos del torneo se guardaron en el archivo: torneo.csv')
+    
     pass

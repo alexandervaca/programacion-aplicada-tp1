@@ -6,7 +6,7 @@ from modelo import Concurso
 print('***************************')
 print('* Programa Tiro al Blanco *')
 print('***************************')
-print()
+print('\n')
 
 concurso = Concurso()
 opcion = 's'
@@ -40,9 +40,23 @@ while opcion == 's':
 
     opcion = input('Desea seguir ingresando participantes (s/n)? ')
 
+
 print('\n')
-print('concurso->mostrarRegistros()\n')
+print('Registros:')
 concurso.mostrarRegistros()
 print('\n')
+print('Podio:')
+concurso.mostrarPodio()
+print('\n')
+print('Ultimo participante:' + concurso.mostrarUltimo())
+print('\n')
+print('Cantidad de participantes: ' + str(concurso.cantidadParticipantes()))
+print('\n')
+print('Participantes ordenados por edad:')
+concurso.mostrarParticipantesPorEdad()
+print('\n')
+print('Promedio de todos los disparos: ' + str(concurso.promedioDisparos()))
+print('\n')
+concurso.guardarCSV()
 print('*******************')
 print('* Fin de programa *')

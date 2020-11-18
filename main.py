@@ -6,11 +6,10 @@ from modelo import Concurso
 print('***************************')
 print('* Programa Tiro al Blanco *')
 print('***************************')
-print('\n')
 
 concurso = Concurso()
 opcion = 's'
-while opcion == 's':
+while (opcion == 's' or opcion == 'S'):
     
     print('Datos del participante')
     numero = int(input('Ingrese numero de partipante: '))
@@ -38,7 +37,7 @@ while opcion == 's':
     disparo = Disparo(d1, d2, d3, Participante(numero, nombre, apellido, edad, sexo))
     concurso.agregarDisparo(disparo)
 
-    opcion = input('Desea seguir ingresando participantes (s/n)? ')
+    opcion = input('Desea seguir ingresando participantes (S/N)? ')
 
 
 print('\n')
@@ -48,7 +47,8 @@ print('\n')
 print('Podio:')
 concurso.mostrarPodio()
 print('\n')
-print('Ultimo participante:' + concurso.mostrarUltimo())
+print('Ultimo participante:')
+print(concurso.mostrarUltimo())
 print('\n')
 print('Cantidad de participantes: ' + str(concurso.cantidadParticipantes()))
 print('\n')
@@ -58,5 +58,5 @@ print('\n')
 print('Promedio de todos los disparos: ' + str(concurso.promedioDisparos()))
 print('\n')
 concurso.guardarCSV()
-print('*******************')
+print('\n')
 print('* Fin de programa *')

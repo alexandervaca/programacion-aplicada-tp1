@@ -63,10 +63,6 @@ class CalculadorDisparo:
 class Concurso:
     disparos = []
 
-    #constructor
-    def __init__(self):
-        print('Concurso __init__')
-
     def agregarDisparo(self, disparo):
         self.disparos.append(disparo)
 
@@ -74,7 +70,7 @@ class Concurso:
         for disparo in self.disparos:
             print(str(disparo))
 
-    #los 3 primeros
+    #podio con los 3 primeros
     def mostrarPodio(self):
         participantesPodio = self.disparos
         for i in range(len(participantesPodio)-1):
@@ -95,15 +91,15 @@ class Concurso:
             print('Sin participantes.')
 
     def mostrarUltimo(self):
-        ultimoParticipante = None
+        ultimoPart = None
         ultimoPuntaje = 0.0
         for disparo in self.disparos:
             peorDisparo = max(disparo.disp1, disparo.disp2, disparo.disp3)
             if ultimoPuntaje < peorDisparo:
                 ultimoPuntaje = peorDisparo
-                ultimoParticipante = disparo
+                ultimoPart = disparo
         
-        return str(ultimoParticipante)
+        return ultimoPart.nombre + ' ' + ultimoPart.apellido + ' ' + str(ultimoPart)
 
     def cantidadParticipantes(self):
         return self.disparos.__len__()
@@ -112,14 +108,14 @@ class Concurso:
         participantesPorEdad = self.disparos
         for i in range(len(participantesPorEdad)-1):
             for k in range(len(participantesPorEdad)-1-i):
-                if participantesPorEdad[ k ].nombre < participantesPorEdad[ k+1 ].nombre:
+                if participantesPorEdad[ k ].edad < participantesPorEdad[ k+1 ].edad:
                     participantesPorEdad[ k ],participantesPorEdad[ k+1 ] = participantesPorEdad[ k+1 ],participantesPorEdad[ k ]
         
         #imprime participantes ordenados por edad
-        for h in range(len(participantesPorEdad)-1):
-          print(str(participantesPorEdad[h]))
+        for participante in participantesPorEdad:
+          print(str(participante))
 
-    #retorna el promedio de todos los disparos
+    #retorna el promedio de todos los mejores disparos
     def promedioDisparos(self):
         promedioTotal = 0.0
         for disparo in self.disparos:
@@ -127,9 +123,9 @@ class Concurso:
         return promedioTotal / self.disparos.__len__()
 
     def guardarCSV(self):
-        # abre archivo csv en modo append 'w' 
+        # abre archivo csv en modo escritura 'w' 
         archivo = open('torneo.csv', 'w', newline ='')
-        # escribe en el archivo
+        # escribe en el archivo cabecera y filas de registros
         with archivo:
             header = ['Nro Part','Nombre','Apellido','Edad','Sexo','Disp1','Disp2','Disp3','MejorDisp','PromDisp']
             writer = csv.DictWriter(archivo, fieldnames = header)
